@@ -43,7 +43,7 @@
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(68px + env(safe-area-inset-top, 0px) + 28px); }
 body {
   background: var(--noche); color: var(--hielo);
   font-family: var(--f-text); font-size: 16px; line-height: 1.6;
