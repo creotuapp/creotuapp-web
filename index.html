@@ -478,6 +478,15 @@ details p { padding: 0 22px 22px; color: var(--niebla); max-width: 62ch; }
 .fine { font-size: 12px; color: var(--niebla); text-align: center; }
 .kbd { font-size: 12px; color: var(--niebla); }
 .kbd b { display: inline-block; padding: 1px 6px; border-radius: 5px; border: 1px solid var(--linea); font-size: 11px; }
+.f-title { font: 600 24px/1.2 var(--f-display); letter-spacing: -0.02em; margin: 0 0 2px; }
+.f2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .f2 { grid-template-columns: 1fr; } }
+.fl select { width: 100%; background: rgba(26,29,46,.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239AA3BD' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 14px center no-repeat; border: 1px solid var(--linea); color: var(--hielo); border-radius: 14px; padding: 24px 40px 10px 16px; font: 600 16px var(--f-text); appearance: none; -webkit-appearance: none; cursor: pointer; }
+.fl select:focus { outline: none; border-color: var(--menta); }
+.fl select:has(option[value=""]:checked) { color: var(--niebla); font-weight: 500; }
+.fl select option { background: var(--grafito); }
+.fl.fsel label { top: 8px; font-size: 11px; font-weight: 700; letter-spacing: .04em; color: var(--niebla); }
+.fl.bad input, .fl.bad select { border-color: #FF6B7A; }
 .wdone { display: grid; gap: 16px; justify-items: center; text-align: center; padding-top: 18px; animation: wIn .45s both; }
 .wdone .big-ok { width: 76px; height: 76px; border-radius: 50%; background: var(--aurora); display: grid; place-items: center; box-shadow: 0 0 0 10px rgba(62,240,196,.12), 0 0 60px rgba(62,240,196,.4); animation: maPop .6s cubic-bezier(.3,1.6,.5,1) both; }
 .wdone .big-ok path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: draw .5s .35s forwards; }
@@ -728,7 +737,7 @@ footer { border-top: 1px solid var(--linea); padding-block: 36px; margin-top: 40
         <div class="c-intro">
           <span class="eyebrow">Hablemos</span>
           <h2>Tu idea, <span class="grad">publicada.</span></h2>
-          <p class="lead">Responde cuatro preguntas y te enviamos una propuesta con precio cerrado.</p>
+          <p class="lead">Déjanos tus datos y te enviamos una propuesta con precio cerrado.</p>
           <ul class="c-trust">
             <li><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Menos de un minuto</li>
             <li><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg></span>Respuesta en menos de 24 horas</li>
@@ -736,12 +745,23 @@ footer { border-top: 1px solid var(--linea); padding-block: 36px; margin-top: 40
           </ul>
         </div>
         <form class="wiz" id="form" novalidate style="position:relative"><div class="hp" aria-hidden="true"><label>No rellenes este campo <input type="text" id="fWeb" name="website" tabindex="-1" autocomplete="off"></label></div>
-          <div class="wiz-top">
-            <button type="button" class="wiz-back" id="wBack" aria-label="Volver al paso anterior" hidden><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4 3 8l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <span id="wStep">Paso 1 de 4</span><span class="tm" id="wTime">≈ 45 segundos</span>
+          <div id="wBody">
+            <div class="wstep" id="fFields">
+              <h3 class="f-title">Pide tu propuesta</h3>
+              <div class="fl" id="flName"><input id="fName" name="nombre" placeholder=" " autocomplete="name" required><label for="fName">Nombre *</label><small class="err" id="eName"></small></div>
+              <div class="f2">
+                <div class="fl"><input id="fBiz" name="negocio" placeholder=" " autocomplete="organization"><label for="fBiz">Nombre del negocio</label></div>
+                <div class="fl fsel"><select id="fType" name="tipo"><option value="">Elige una opción</option><option>Restaurante o bar</option><option>Gimnasio o deporte</option><option>Belleza o peluquería</option><option>Clínica o salud</option><option>Tienda</option><option>Otro</option></select><label for="fType">Tipo de negocio</label></div>
+              </div>
+              <div class="f2">
+                <div class="fl" id="flTel"><input id="fTel" name="telefono" type="tel" inputmode="tel" placeholder=" " autocomplete="tel"><label for="fTel">Teléfono / WhatsApp *</label><small class="err" id="eTel"></small></div>
+                <div class="fl" id="flMail"><input id="fMail" name="email" type="email" inputmode="email" placeholder=" " autocomplete="email"><label for="fMail">Email</label><small class="err" id="eMail"></small></div>
+              </div>
+              <div class="fl"><textarea id="fMsg" name="mensaje" placeholder=" " rows="4"></textarea><label for="fMsg">Cuéntanos qué app necesitas</label></div>
+              <button type="submit" class="btn btn-p" id="fSend">Enviar</button>
+              <p class="fine">* Obligatorio. Solo usamos tus datos para hablar contigo de tu app. Al enviar aceptas la <a href="privacidad.html" target="_blank" rel="noopener" style="color:inherit">política de privacidad</a>.</p>
+            </div>
           </div>
-          <div class="wiz-bar" aria-hidden="true"><i id="wBar"></i></div>
-          <div id="wBody"></div>
         </form>
       </div>
     </div>
@@ -1042,106 +1062,59 @@ footer { border-top: 1px solid var(--linea); padding-block: 36px; margin-top: 40
 
 
   document.querySelectorAll('[data-ic]').forEach(el => el.innerHTML = svg(el.dataset.ic, 17));
-  /* ---------- Formulario por pasos ---------- */
-  /* Destino de los contactos: pon aquí el número de WhatsApp (con prefijo, sin +) o un email */
+  /* ---------- Formulario de contacto ---------- */
   const CONTACTO = { sheets: 'https://script.google.com/macros/s/AKfycbw3FwTE8SbrXu0ckXssLpeiiC5vqOAg4wU8JQrW3rIgmgbt21U2Qe6SYpyWXCbSWBzf/exec', whatsapp: '', email: '' };
-  const F = { type: null, feats: new Set(), when: null, via: 'whatsapp', name: '', biz: '', contact: '', msg: '' };
-  const TYPES = [['restaurante', 'fork', 'Restaurante o bar'], ['gimnasio', 'dumb', 'Gimnasio o deporte'], ['peluqueria', 'scis', 'Belleza o peluquería'], ['clinica', 'cross', 'Clínica o salud'], ['tienda', 'bag', 'Tienda'], ['otro', 'spark', 'Otro tipo']];
-  const WHENS = [['ya', 'Lo antes posible', 'Quiero empezar este mes'], ['pronto', 'En 1 o 2 meses', 'Lo estoy preparando'], ['mirando', 'Solo estoy mirando', 'Quiero saber precios y opciones']];
-  const VIAS = [['whatsapp', 'WhatsApp', 'Tu número de WhatsApp', 'tel'], ['email', 'Email', 'Tu email', 'email'], ['llamada', 'Llamada', 'Tu teléfono', 'tel']];
-  const KEYS = 'ABCDEF';
-  let step = 1, dir = 1;
-  const wBody = $('wBody');
-  const planTxt = () => F.feats.size > 4 ? '<b>Plan a medida</b> · te damos presupuesto' : '<b>Plan Esencial</b> · desde 650 € + 19 €/mes';
-  const okContact = () => F.via === 'email' ? /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(F.contact.trim()) : /^\+?\d{9,13}$/.test(F.contact.replace(/[\s.-]/g, ''));
-  const okName = () => F.name.trim().length >= 2;
-
-  function wDraw() {
-    $('wStep').textContent = step <= 4 ? `Paso ${step} de 4` : '¡Enviado!';
-    $('wTime').textContent = step <= 4 ? ['≈ 45 segundos', '≈ 30 segundos', '≈ 20 segundos', 'Último paso'][step - 1] : '';
-    $('wBar').style.width = Math.min(step, 4) / 4 * 100 + '%';
-    $('wBack').hidden = step === 1 || step > 4;
-    const cls = 'wstep' + (dir < 0 ? ' back' : '');
-    if (step === 1) wBody.innerHTML = `<fieldset class="${cls}"><legend>¿Qué tipo de negocio tienes?</legend><p class="hint">Así te enseñamos ejemplos de tu sector.</p><div class="opts">${TYPES.map((t, i) => `<button type="button" class="opt" data-type="${t[0]}" aria-pressed="${F.type === t[0]}"><span class="k">${KEYS[i]}</span><span class="em">${svg(t[1], 20)}</span><span class="tx">${t[2]}</span></button>`).join('')}</div><p class="kbd">Pulsa <b>A</b>–<b>F</b> en el teclado para elegir</p></fieldset>`;
-    if (step === 2) wBody.innerHTML = `<fieldset class="${cls}"><legend>¿Qué debe hacer tu app?</legend><p class="hint">Marca todas las que quieras. Te decimos qué plan encaja.</p><div class="opts">${FEATS.map((f, i) => `<button type="button" class="opt" data-feat="${f[0]}" aria-pressed="${F.feats.has(f[0])}"><span class="k">${KEYS[i]}</span><span class="tx">${f[1]}</span></button>`).join('')}</div><div class="wiz-foot"><span class="plan-est" id="planEst">${F.feats.size ? planTxt() : 'Elige al menos una'}</span><button type="button" class="btn btn-p" id="wNext2" ${F.feats.size ? '' : 'disabled'}>Continuar</button></div></fieldset>`;
-    if (step === 3) wBody.innerHTML = `<fieldset class="${cls}"><legend>¿Para cuándo la necesitas?</legend><p class="hint">Nos ayuda a organizar el calendario.</p><div class="opts one">${WHENS.map((w, i) => `<button type="button" class="opt" data-when="${w[0]}" aria-pressed="${F.when === w[0]}"><span class="k">${KEYS[i]}</span><span class="tx">${w[1]}<small>${w[2]}</small></span></button>`).join('')}</div></fieldset>`;
-    if (step === 4) {
-      const v = VIAS.find(x => x[0] === F.via);
-      wBody.innerHTML = `<fieldset class="${cls}"><legend>¿Cómo te contactamos?</legend>
-        <div class="fl" id="flName"><input id="fName" placeholder=" " autocomplete="given-name" value="${esc(F.name)}"><label for="fName">Tu nombre</label><span class="vk">${svg('check', 12, 3)}</span><small class="err" id="eName"></small></div>
-        <div class="fl"><input id="fBiz" placeholder=" " autocomplete="organization" value="${esc(F.biz)}"><label for="fBiz">Nombre del negocio (opcional)</label></div>
-        <div class="seg" role="radiogroup" aria-label="Cómo prefieres que te contactemos">${VIAS.map(x => `<button type="button" role="radio" data-via="${x[0]}" aria-checked="${F.via === x[0]}">${x[1]}</button>`).join('')}</div>
-        <div class="fl" id="flCon"><input id="fContact" placeholder=" " type="${v[3]}" inputmode="${v[3] === 'tel' ? 'tel' : 'email'}" autocomplete="${v[3] === 'tel' ? 'tel' : 'email'}" value="${esc(F.contact)}"><label for="fContact">${v[2]}</label><span class="vk">${svg('check', 12, 3)}</span><small class="err" id="eCon"></small></div>
-        <div class="fl"><textarea id="fMsg" placeholder=" " rows="2">${esc(F.msg)}</textarea><label for="fMsg">¿Algo más que debamos saber? (opcional)</label></div>
-        <button type="submit" class="btn btn-p">Enviar y recibir propuesta</button>
-        <p class="fine">Solo usamos tus datos para hablar contigo de tu app. Al enviar aceptas la <a href="privacidad.html" target="_blank" style="color:inherit">política de privacidad</a>.</p></fieldset>`;
-      const live = () => { $('flName').classList.toggle('valid', okName()); $('flCon').classList.toggle('valid', okContact()); };
-      [['fName', 'name'], ['fBiz', 'biz'], ['fContact', 'contact'], ['fMsg', 'msg']].forEach(([id, k]) => $(id).addEventListener('input', e => { F[k] = e.target.value; live(); if (k === 'name' && okName()) { $('flName').classList.remove('bad'); $('eName').textContent = ''; } if (k === 'contact' && okContact()) { $('flCon').classList.remove('bad'); $('eCon').textContent = ''; } }));
-      $('fName').addEventListener('blur', () => { if (F.name && !okName()) { $('flName').classList.add('bad'); $('eName').textContent = 'Escribe al menos 2 letras.'; } });
-      $('fContact').addEventListener('blur', () => { if (F.contact && !okContact()) { $('flCon').classList.add('bad'); $('eCon').textContent = F.via === 'email' ? 'Revisa el email, parece incompleto. Ejemplo: nombre@gmail.com' : 'Revisa el número: necesitamos 9 cifras, por ejemplo 612 345 678.'; } });
-      live();
-      setTimeout(() => (F.name ? $('fContact') : $('fName')).focus({ preventScroll: true }), 50);
-    }
-    if (step === 5) {
-      const t = TYPES.find(x => x[0] === F.type), w = WHENS.find(x => x[0] === F.when), v = VIAS.find(x => x[0] === F.via);
-      wBody.innerHTML = `<div class="wdone"><div class="big-ok"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#07080F" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></div>
-        <h3>¡Gracias, ${esc(F.name.trim().split(' ')[0])}!</h3><p class="lead" style="font-size:16px;margin:0">Te escribimos por ${v[1] === 'Llamada' ? 'teléfono' : v[1]} en menos de 24 horas con tu propuesta.</p>
-        <div class="wsum"><div><span>Negocio</span><span>${esc(F.biz.trim() || t[2])}</span></div><div><span>Funciones</span><span>${F.feats.size}</span></div><div><span>Plazo</span><span>${w[1]}</span></div><div><span>Plan</span><span>${F.feats.size > 4 ? 'A medida' : 'Esencial · desde 650 €'}</span></div></div>
-        ${CONTACTO.sheets ? '' : leadUrl() ? `<p class="fine" style="font-size:14px">Se ha abierto ${CONTACTO.whatsapp ? 'WhatsApp' : 'tu correo'} con tu mensaje ya escrito. Solo tienes que pulsar Enviar.</p><a class="btn btn-p" href="${leadUrl()}" target="_blank" rel="noopener">${CONTACTO.whatsapp ? 'Abrir WhatsApp' : 'Abrir el correo'}</a>` : '<p class="fine">Esta web es una versión de prueba: el formulario todavía no envía mensajes.</p>'}
-        <button type="button" class="btn btn-g" id="wAgain">Empezar de nuevo</button></div>`;
-      confetti();
-    }
-  }
+  const v = id => $(id).value.trim();
+  const okName = () => v('fName').length >= 2;
+  const okTel = () => /^\+?\d{9,13}$/.test(v('fTel').replace(/[\s.()-]/g, ''));
+  const okMail = () => !v('fMail') || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('fMail'));
+  const setErr = (fl, el, msg) => { $(fl).classList.toggle('bad', !!msg); $(el).textContent = msg || ''; };
+  const checks = {
+    fName: () => setErr('flName', 'eName', okName() ? '' : 'Escribe tu nombre.'),
+    fTel: () => setErr('flTel', 'eTel', okTel() ? '' : !v('fTel') ? 'Necesitamos tu teléfono para contactarte.' : 'Revisa el número: necesitamos 9 cifras, por ejemplo 612 345 678.'),
+    fMail: () => setErr('flMail', 'eMail', okMail() ? '' : 'Revisa el email. Ejemplo: nombre@gmail.com'),
+  };
+  Object.keys(checks).forEach(id => {
+    $(id).addEventListener('blur', () => { if (v(id)) checks[id](); });
+    $(id).addEventListener('input', () => { if ($(id).parentElement.classList.contains('bad')) checks[id](); });
+  });
   function leadMsg() {
-    const t = TYPES.find(x => x[0] === F.type), w = WHENS.find(x => x[0] === F.when), v = VIAS.find(x => x[0] === F.via);
-    return [`Hola, soy ${F.name.trim()}. Quiero una app para mi negocio.`, `Negocio: ${F.biz.trim() || '-'} (${t ? t[2] : '-'})`, `Funciones: ${FEATS.filter(f => F.feats.has(f[0])).map(f => f[1]).join(', ')}`, `Plazo: ${w ? w[1] : '-'}`, `Contactar por ${v[1]}: ${F.contact.trim()}`, F.msg.trim() ? `Comentarios: ${F.msg.trim()}` : ''].filter(Boolean).join('\n');
+    return [`Hola, soy ${v('fName')}. Quiero una app para mi negocio.`, `Negocio: ${v('fBiz') || '-'} (${v('fType') || '-'})`, `Teléfono: ${v('fTel')}`, v('fMail') ? `Email: ${v('fMail')}` : '', v('fMsg') ? `Qué necesito: ${v('fMsg')}` : ''].filter(Boolean).join('\n');
   }
   function leadUrl() {
     if (CONTACTO.whatsapp) return 'https://wa.me/' + CONTACTO.whatsapp.replace(/\D/g, '') + '?text=' + encodeURIComponent(leadMsg());
-    if (CONTACTO.email) return 'mailto:' + CONTACTO.email + '?subject=' + encodeURIComponent('Quiero mi app - ' + F.name.trim()) + '&body=' + encodeURIComponent(leadMsg());
+    if (CONTACTO.email) return 'mailto:' + CONTACTO.email + '?subject=' + encodeURIComponent('Quiero mi app - ' + v('fName')) + '&body=' + encodeURIComponent(leadMsg());
     return '';
   }
-  function go(n) { dir = n > step ? 1 : -1; step = n; wDraw(); }
+  function done() {
+    const name = v('fName').split(' ')[0];
+    $('wBody').innerHTML = `<div class="wdone"><div class="big-ok"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#07080F" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></div>
+      <h3>¡Gracias, ${esc(name)}!</h3><p class="lead" style="font-size:16px;margin:0">Te escribimos en menos de 24 horas con tu propuesta.</p>
+      ${CONTACTO.sheets || leadUrl() ? '' : '<p class="fine">Esta web es una versión de prueba: el formulario todavía no envía mensajes.</p>'}</div>`;
+    confetti();
+  }
   function confetti() {
     if (reduce) return; const form = $('form'), cols = ['#3EF0C4', '#2E7BFF', '#EEF2FA', '#7FD9FF'];
     for (let i = 0; i < 36; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = '50%'; c.style.top = '90px'; c.style.background = cols[i % 4]; c.style.setProperty('--x', (Math.random() * 360 - 180) + 'px'); c.style.setProperty('--y', (Math.random() * 260 - 60) + 'px'); c.style.setProperty('--r', (Math.random() * 720) + 'deg'); form.appendChild(c); setTimeout(() => c.remove(), 1500); }
   }
-  $('form').addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.type) { F.type = b.dataset.type; b.setAttribute('aria-pressed', true); b.classList.add('pick'); setTimeout(() => go(2), 320); }
-    else if (b.dataset.feat) { const k = b.dataset.feat; F.feats.has(k) ? F.feats.delete(k) : F.feats.add(k); b.setAttribute('aria-pressed', F.feats.has(k)); $('planEst').innerHTML = F.feats.size ? planTxt() : 'Elige al menos una'; $('wNext2').disabled = !F.feats.size; }
-    else if (b.id === 'wNext2') go(3);
-    else if (b.dataset.when) { F.when = b.dataset.when; b.setAttribute('aria-pressed', true); b.classList.add('pick'); setTimeout(() => go(4), 320); }
-    else if (b.dataset.via) { F.via = b.dataset.via; F.contact = ''; wDraw(); $('fContact').focus(); }
-    else if (b.id === 'wBack') go(step - 1);
-    else if (b.id === 'wAgain') { Object.assign(F, { type: null, feats: new Set(), when: null, name: '', biz: '', contact: '', msg: '' }); go(1); }
-  });
   const T0 = Date.now();
   $('form').addEventListener('submit', e => {
-    e.preventDefault(); if (step !== 4) return;
-    let ok = true;
-    if (!okName()) { ok = false; $('flName').classList.add('bad'); $('eName').textContent = 'Dinos cómo te llamas.'; }
-    if (!okContact()) { ok = false; $('flCon').classList.add('bad'); $('eCon').textContent = F.contact ? (F.via === 'email' ? 'Revisa el email, parece incompleto.' : 'Revisa el número: necesitamos 9 cifras.') : 'Lo necesitamos para enviarte la propuesta.'; }
-    if (!ok) { (okName() ? $('fContact') : $('fName')).focus(); return; }
-    if ($('fWeb').value || Date.now() - T0 < 2500) { go(5); return; }
+    e.preventDefault();
+    Object.values(checks).forEach(f => f());
+    const bad = ['fName', 'fTel', 'fMail'].find(id => $(id).parentElement.classList.contains('bad'));
+    if (bad) { $(bad).focus(); return; }
+    if ($('fWeb').value || Date.now() - T0 < 2500) { done(); return; }
     if (CONTACTO.sheets) {
-      const t = TYPES.find(x => x[0] === F.type), w = WHENS.find(x => x[0] === F.when), v = VIAS.find(x => x[0] === F.via);
-      const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Enviando…';
-      fetch(CONTACTO.sheets, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ nombre: F.name.trim(), negocio: F.biz.trim(), tipo: t ? t[2] : '', funciones: FEATS.filter(f => F.feats.has(f[0])).map(f => f[1]).join(', '), nfunciones: F.feats.size, plan: F.feats.size > 4 ? 'A medida' : 'Esencial', plazo: w ? w[1] : '', via: v[1], contacto: F.contact.trim(), comentarios: F.msg.trim() }) })
-        .then(() => go(5))
-        .catch(() => { btn.disabled = false; btn.textContent = 'Enviar y recibir propuesta'; $('eCon').textContent = 'No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.'; });
+      const btn = $('fSend'); btn.disabled = true; btn.textContent = 'Enviando…';
+      const contacto = v('fTel') + (v('fMail') ? ' · ' + v('fMail') : '');
+      fetch(CONTACTO.sheets, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ nombre: v('fName'), negocio: v('fBiz'), tipo: v('fType'), funciones: '', nfunciones: '', plan: '', plazo: '', via: v('fMail') ? 'Teléfono / email' : 'Teléfono', contacto, comentarios: v('fMsg') }) })
+        .then(done)
+        .catch(() => { btn.disabled = false; btn.textContent = 'Enviar'; setErr('flTel', 'eTel', 'No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.'); });
       return;
     }
     const u = leadUrl(); if (u) window.open(u, '_blank', 'noopener');
-    go(5);
+    done();
   });
-  document.addEventListener('keydown', e => {
-    if (e.target.matches('input, textarea') || e.metaKey || e.ctrlKey || e.altKey) return;
-    const r = $('form').getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
-    const i = KEYS.indexOf(e.key.toUpperCase()); if (i < 0) { if (e.key === 'Enter' && step === 2 && F.feats.size) go(3); return; }
-    const opts = wBody.querySelectorAll('.opt'); if (opts[i] && step <= 3) { e.preventDefault(); opts[i].click(); }
-  });
-  wDraw();
   /* Preguntas: solo una abierta a la vez */
   document.querySelectorAll('details[name="faq"]').forEach(d => d.addEventListener('toggle', () => { if (d.open) document.querySelectorAll('details[name="faq"]').forEach(o => { if (o !== d) o.open = false; }); }));
 })();
