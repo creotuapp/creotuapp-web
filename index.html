@@ -44,6 +44,7 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(68px + env(safe-area-inset-top, 0px) + 28px); }
+section[id] { scroll-margin-top: calc(68px + env(safe-area-inset-top, 0px) + 28px); }
 body {
   background: var(--noche); color: var(--hielo);
   font-family: var(--f-text); font-size: 16px; line-height: 1.6;
@@ -1113,6 +1114,17 @@ footer { border-top: 1px solid var(--linea); padding-block: 36px; margin-top: 40
     }
     const u = leadUrl(); if (u) window.open(u, '_blank', 'noopener');
     done();
+  });
+  /* Enlaces internos: que la cabecera fija nunca tape el destino (también en Safari) */
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a || e.metaKey || e.ctrlKey) return;
+    const id = a.getAttribute('href'); if (id.length < 2) return;
+    const t = document.querySelector(id); if (!t) return;
+    e.preventDefault();
+    const hd = document.querySelector('header').getBoundingClientRect().height;
+    const y = t.getBoundingClientRect().top + scrollY - hd - 24;
+    scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
+    history.replaceState(null, '', id);
   });
   /* Preguntas: solo una abierta a la vez */
   document.querySelectorAll('details[name="faq"]').forEach(d => d.addEventListener('toggle', () => { if (d.open) document.querySelectorAll('details[name="faq"]').forEach(o => { if (o !== d) o.open = false; }); }));
