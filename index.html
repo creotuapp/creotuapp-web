@@ -1107,7 +1107,7 @@ footer { border-top: 1px solid var(--linea); padding-block: 36px; margin-top: 40
     if (CONTACTO.sheets) {
       const btn = $('fSend'); btn.disabled = true; btn.textContent = 'Enviando…';
       const contacto = v('fTel') + (v('fMail') ? ' · ' + v('fMail') : '');
-      fetch(CONTACTO.sheets, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ nombre: v('fName'), negocio: v('fBiz'), tipo: v('fType'), funciones: '', nfunciones: '', plan: '', plazo: '', via: v('fMail') ? 'Teléfono / email' : 'Teléfono', contacto, comentarios: v('fMsg') }) })
+      fetch(CONTACTO.sheets, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ nombre: v('fName'), negocio: v('fBiz'), tipo: v('fType'), funciones: '', nfunciones: '', plan: '', plazo: '', via: (/[?&]from=ig\b/.test(location.search) ? 'Instagram · ' : '') + (v('fMail') ? 'Teléfono / email' : 'Teléfono'), contacto, comentarios: v('fMsg') }) })
         .then(done)
         .catch(() => { btn.disabled = false; btn.textContent = 'Enviar'; setErr('flTel', 'eTel', 'No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.'); });
       return;
